@@ -1,9 +1,16 @@
 let userInput = document.getElementById("date");
+// Set the max attribute to today's date
 userInput.max = new Date().toISOString().split("T")[0];
 let result = document.getElementById("result");
 
-function calculateAge(){
+function calculateAge() {
     let birthDate = new Date(userInput.value);
+
+    // Check if the selected date is valid and not in the future
+    if (birthDate > new Date()) {
+        result.innerHTML = `<span style="color: red;">Future dates are not allowed!</span>`;
+        return;
+    }
 
     let d1 = birthDate.getDate();
     let m1 = birthDate.getMonth() + 1;
@@ -17,29 +24,30 @@ function calculateAge(){
 
     let d3, m3, y3;
 
-    y3 = y2 -y1;
+    y3 = y2 - y1;
 
-    if(m2 >= m1){
+    if (m2 >= m1) {
         m3 = m2 - m1;
-    }else{
+    } else {
         y3--;
         m3 = 12 + m2 - m1;
     }
 
-    if(d2 >= d1){
+    if (d2 >= d1) {
         d3 = d2 - d1;
-    }else{
+    } else {
         m3--;
-        d3 = getDaysInMonth(y1,m1) + d2 - d1;
+        d3 = getDaysInMonth(y1, m1) + d2 - d1;
     }
-    if(m3 < 0){
+
+    if (m3 < 0) {
         m3 = 11;
         y3--;
     }
-    result.innerHTML = `Your are <span>${y3}</span> years, <span>${m3}</span> months, <span>${d3}</span> days old.`;
-    
+
+    result.innerHTML = `You are <span>${y3}</span> years, <span>${m3}</span> months, <span>${d3}</span> days old.`;
 }
 
-function getDaysInMonth(year, month){
+function getDaysInMonth(year, month) {
     return new Date(year, month, 0).getDate();
 }
